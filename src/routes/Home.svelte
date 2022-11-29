@@ -6,7 +6,7 @@
 	let groups = new Array();
 	let expenses = new Array();
 	let userGroups = new Array();
-	let signedId = 7;
+	let signedId = 1;
 	var totalExpenses = 0;
 
 	const formatter = new Intl.NumberFormat('da-DK', {
@@ -29,7 +29,7 @@
 	}
 
 	async function deleteExpense(id) {
-		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/DeleteExpenditure/' + id, {
+		const res = await fetch('https://api-wan-kenobi.ovh/api/Expense/DeleteExpenditure/' + id, {
 			method: 'DELETE',
 			headers: { 'Content-type': 'application/json' }
 		});
@@ -45,7 +45,7 @@
 			userGroups = userGroups;
 		});
 
-	$: fetch('https://api-wan-kenobi.ovh/api/UserGroup/GetAllExpenses')
+	$: fetch('https://api-wan-kenobi.ovh/api/Expense/GetAllExpenses')
 		.then((response) => response.json())
 		.then((expense) => {
 			expenses = expense;
@@ -53,7 +53,7 @@
 		});
 
 	onMount(async () => {
-		fetch('https://api-wan-kenobi.ovh/api/UserGroup/GetAllGroups')
+		fetch('https://api-wan-kenobi.ovh/api/ShareGroup/GetAllGroups')
 			.then((response) => response.json())
 			.then((group) => {
 				groups = group;
@@ -154,7 +154,7 @@
 <style>
 	.main-body {
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		/* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 	}
 
 	.add-button-div {

@@ -1,6 +1,5 @@
 <script>
 	import Home from './Home.svelte';
-
 </script>
 
 <svelte:head>
@@ -9,11 +8,10 @@
 </svelte:head>
 
 <section>
-	<h1>
-		Groups
-	</h1>
+	<h1>Groups</h1>
 	<Home />
 </section>
+
 <style>
 	section {
 		display: flex;

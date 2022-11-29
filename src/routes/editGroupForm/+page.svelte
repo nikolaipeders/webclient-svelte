@@ -21,19 +21,18 @@
 	}
 
 	async function putGroup() {
-		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/UpdateGroupDetails', {
+		const res = await fetch('https://api-wan-kenobi.ovh/api/ShareGroup/UpdateGroupDetails', {
 			method: 'PUT',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify({
 				groupID: reference,
 				newGroupName: name,
-				newGroupDescription: description
+				newGroupDescription: description,
+				isPublic: isPublic
 			})
 		});
-
-		const json = await res.json();
-		result = JSON.stringify(json);
-
+		// const json = await res.json();
+		// result = JSON.stringify(json);
 		await goHome();
 	}
 </script>
@@ -45,17 +44,25 @@
 
 <div class="text-column">
 	<h1>Configure group</h1>
-	<form class="search-form">
-		<input bind:value={name} placeholder="Name" class="search-input" />
-	</form>
-	<form class="search-form">
-		<input bind:value={description} placeholder="Description" class="search-input" />
-	</form>
-
+	<div>
+		<input type="text" placeholder="Name" id="name" class="form-input" bind:value={name} required />
+		<label for="name" class="form-label">Name</label>
+	</div>
+	<div>
+		<input
+			type="text"
+			placeholder="Description"
+			id="description"
+			class="form-input"
+			bind:value={description}
+			required
+		/>
+		<label for="description" class="form-label">Description</label>
+	</div>
 	<div>
 		<div class="switch-box">
 			Public &nbsp
-			<input type="checkbox" class="switch" checked={isPublic} />
+			<input type="checkbox" class="switch" bind:checked={isPublic} />
 		</div>
 	</div>
 	<div class="buttons-row">
@@ -65,36 +72,43 @@
 </div>
 
 <style>
-	.search-form {
-		position: relative;
-		margin-top: 20px;
-		top: 50%;
-		left: 50%;
-		width: 350px;
-		height: 40px;
-		border-radius: 40px;
-		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-		transform: translate(-50%, -50%);
-		background: #fff;
-		transition: all 0.3s ease;
-	}
-
-	.search-form:active {
+	.form-input:active {
 		box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
 	}
 
-	.search-input {
-		position: absolute;
-		top: 10px;
-		left: 38px;
-		font-size: 14px;
-		background: none;
-		color: #5a6674;
-		width: 280px;
+	.form-input {
+		color: #333;
+		font-size: 1rem;
+		margin: 0 auto;
+		margin-bottom: 0px;
+		width: 350px;
 		height: 20px;
+		padding: 0.75rem 2rem;
+		border-radius: 40px;
+		background-color: white;
+		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 		border: none;
-		appearance: none;
 		outline: none;
+		transition: all 0.3s;
+	}
+
+	.form-input:placeholder-shown + .form-label {
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-3em);
+	}
+
+	.form-label {
+		font-size: 1rem;
+		margin-left: 2rem;
+		margin-top: 0.7rem;
+		display: block;
+		transition: all 0.3s;
+		transform: translateY(-75px);
+	}
+
+	input:not(:placeholder-shown):invalid {
+		background-color: #ffe9ec;
 	}
 
 	.switch-box {

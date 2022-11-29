@@ -45,7 +45,7 @@
 							<in>{formatter.format(distribution.amountPaidDuringGroup)}</in>
 						</in>
 						<in class="distribution-item">
-							{#if distribution.finalAmountOwed > 0}
+							{#if distribution.finalAmountOwed >= 0}
 								Owes
 							{/if}
 							{#if distribution.finalAmountOwed < 0}
