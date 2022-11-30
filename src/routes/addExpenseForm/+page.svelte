@@ -1,5 +1,7 @@
 <script>
 	import { page } from '$app/stores';
+	import toast, { Toaster } from 'svelte-french-toast';
+
 	var name = '';
 	var description = '';
 	var amount = '';
@@ -23,14 +25,18 @@
 				name: name,
 				description: description,
 				amount: amount,
-				userId: '2'
+				userId: '3'
 			})
+		});
+
+		toast.success('Successfully added expense', {
+			position: 'bottom-center'
 		});
 
 		const json = await res.json();
 		result = JSON.stringify(json);
 
-		await goHome();
+		goBack();
 	}
 </script>
 
@@ -38,6 +44,8 @@
 	<title>Form</title>
 	<meta name="description" content="About this app" />
 </svelte:head>
+
+<Toaster />
 
 <div class="text-column">
 	<h1>Add an expense</h1>

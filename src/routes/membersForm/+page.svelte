@@ -2,6 +2,7 @@
 	// @ts-nocheck
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import toast, { Toaster } from 'svelte-french-toast';
 
 	var reference = '' + $page.url.searchParams.get('reference');
 	var result = null;
@@ -34,6 +35,10 @@
 			})
 		});
 
+		toast.success('Added member', {
+			position: 'bottom-center'
+		});
+
 		const json = await res.json();
 		result = JSON.stringify(json);
 
@@ -45,6 +50,8 @@
 	<title>Members</title>
 	<meta name="description" content="About this app" />
 </svelte:head>
+
+<Toaster />
 
 <div class="text-column">
 	<h1>Add member</h1>

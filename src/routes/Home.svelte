@@ -2,6 +2,7 @@
 	// @ts-nocheck
 
 	import { onMount } from 'svelte';
+	import toast, { Toaster } from 'svelte-french-toast';
 
 	let groups = new Array();
 	let expenses = new Array();
@@ -24,6 +25,10 @@
 			})
 		});
 
+		toast.success('Member removed from group', {
+			position: 'bottom-center'
+		});
+
 		const json = await res.json();
 		result = JSON.stringify(json);
 	}
@@ -32,6 +37,10 @@
 		const res = await fetch('https://api-wan-kenobi.ovh/api/Expense/DeleteExpenditure/' + id, {
 			method: 'DELETE',
 			headers: { 'Content-type': 'application/json' }
+		});
+
+		toast.success('Expense deleted', {
+			position: 'bottom-center'
 		});
 
 		const json = await res.json();
@@ -60,6 +69,8 @@
 			});
 	});
 </script>
+
+<Toaster />
 
 <div class="main-body">
 	<div class="add-button-div">

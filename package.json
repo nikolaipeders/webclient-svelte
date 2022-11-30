@@ -30,6 +30,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@auth0/auth0-spa-js": "^2.0.0",
 		"node-fetch": "^3.3.0",
 		"svelte-french-toast": "^1.0.3",
 		"svelte-notifications": "^0.9.98"

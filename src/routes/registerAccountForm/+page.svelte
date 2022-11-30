@@ -56,9 +56,7 @@
 			// const json = await res.json();
 			// result = JSON.stringify(json);
 
-			setTimeout(() => {
-				goBack();
-			}, 1000);
+			goBack();
 		}
 	}
 </script>

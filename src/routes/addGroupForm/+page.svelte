@@ -1,4 +1,6 @@
 <script>
+	import toast, { Toaster } from 'svelte-french-toast';
+
 	var name = '';
 	var description = '';
 	var isPublic = true;
@@ -24,10 +26,14 @@
 			})
 		});
 
+		toast.success('Successfully added group', {
+			position: 'bottom-center'
+		});
+
 		const json = await res.json();
 		result = JSON.stringify(json);
 
-		await goHome();
+		goBack();
 	}
 </script>
 
@@ -35,6 +41,8 @@
 	<title>Form</title>
 	<meta name="description" content="About this app" />
 </svelte:head>
+
+<Toaster />
 
 <div class="text-column">
 	<h1>Add a group</h1>

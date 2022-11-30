@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import toast, { Toaster } from 'svelte-french-toast';
 
 	var name = $page.url.searchParams.get('name');
 	var description = $page.url.searchParams.get('des');
@@ -31,9 +32,14 @@
 				isPublic: isPublic
 			})
 		});
+
+		toast.success('Saved changes', {
+			position: 'bottom-center'
+		});
+
 		// const json = await res.json();
 		// result = JSON.stringify(json);
-		await goHome();
+		goBack();
 	}
 </script>
 
@@ -41,6 +47,8 @@
 	<title>Form</title>
 	<meta name="description" content="About this app" />
 </svelte:head>
+
+<Toaster />
 
 <div class="text-column">
 	<h1>Configure group</h1>
