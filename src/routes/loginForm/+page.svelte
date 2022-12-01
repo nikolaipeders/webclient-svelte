@@ -18,6 +18,10 @@
 		history.back();
 	}
 
+	async function goHome() {
+		window.location.href = '/';
+	}
+
 	async function signIn() {
 		if (
 			(typeof username === 'string' && username.length === 0) ||
@@ -50,9 +54,7 @@
 				position: 'bottom-center'
 			});
 
-			console.log(user);
-
-			goBack();
+			goHome();
 		}
 	}
 </script>
