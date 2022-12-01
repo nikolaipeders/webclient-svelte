@@ -1,3 +1,14 @@
+<script>
+	import { onMount } from 'svelte';
+	import { storedUser } from '$lib/stores/user';
+
+	onMount(async () => {
+		if ($storedUser.token.includes('Empty')) {
+			window.location.href = '/loginForm';
+		}
+	});
+</script>
+
 <svelte:head>
 	<title>About</title>
 	<meta name="description" content="About this app" />
