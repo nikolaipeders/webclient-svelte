@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import { storedUser } from '$lib/stores/user';
 	import toast, { Toaster } from 'svelte-french-toast';
 
 	var name = '';
@@ -25,7 +26,7 @@
 				name: name,
 				description: description,
 				amount: amount,
-				userId: '3'
+				userId: $storedUser.id
 			})
 		});
 

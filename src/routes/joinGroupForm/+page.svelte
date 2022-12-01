@@ -1,6 +1,7 @@
 <script>
 	// @ts-nocheck
 	import { page } from '$app/stores';
+	import { storedUser } from '$lib/stores/user';
 	import { onMount } from 'svelte';
 	import toast, { Toaster } from 'svelte-french-toast';
 
@@ -28,13 +29,17 @@
 		window.location.href = '/';
 	}
 
+	function goBack() {
+		history.back();
+	}
+
 	async function addMember(group) {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/JoinExistingGroup', {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify({
 				groupID: group,
-				userId: 7
+				userId: $storedUser.id
 			})
 		});
 

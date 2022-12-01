@@ -1,9 +1,9 @@
 <script>
 	// @ts-nocheck
 	import toast, { Toaster } from 'svelte-french-toast';
+	import { storedUser } from '$lib/stores/user';
 	const regexExpMail =
 		/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
-	let isReaden = false;
 	let name = '';
 	let lastName = '';
 	let username = '';
@@ -11,12 +11,46 @@
 	let password = '';
 	let passwordConfirmation = '';
 	let result = null;
+	let users = new Array();
+	let user = '';
 
 	function goBack() {
 		history.back();
 	}
 
-	async function registerAcc() {
+	async function goHome() {
+		window.location.href = '/loginForm';
+	}
+
+	fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers')
+		.then((response) => response.json())
+		.then((data) => {
+			users = data;
+
+			user = users?.find((u) => u.userId == $storedUser.id);
+			name = user?.firstName;
+			lastName = user?.lastName;
+			username = user?.userName;
+			mail = user?.email;
+		});
+
+	async function signOut() {
+		const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Logout/' + $storedUser.id, {
+			method: 'POST',
+			headers: { 'Content-type': 'application/json' }
+		});
+
+		$storedUser.id = 0;
+		$storedUser.token = 'Empty';
+
+		toast.success('Logged out', {
+			position: 'bottom-center'
+		});
+
+		goHome();
+	}
+
+	async function editAcc() {
 		if (
 			(typeof name === 'string' && name.length === 0) ||
 			(typeof lastName === 'string' && lastName.length === 0) ||
@@ -36,27 +70,21 @@
 			toast.error('Passwords not identical', {
 				position: 'bottom-center'
 			});
-		} else if (isReaden == false) {
-			toast.error('You need to accept the terms of service', {
-				position: 'bottom-center'
-			});
 		} else {
-			toast.success('Successfully added account', {
+			toast.success('Successfully updated account', {
 				position: 'bottom-center'
 			});
 
-			const res = await fetch('https://api-wan-kenobi.ovh/api/ShareUser/CreateUser', {
-				method: 'POST',
+			const res = await fetch('https://api-wan-kenobi.ovh/api/ShareUser/UpdateUser', {
+				method: 'PUT',
 				headers: { 'Content-type': 'application/json' },
 				body: JSON.stringify({
+					userId: $storedUser.id,
 					firstName: name,
 					lastName: lastName,
 					userName: username,
 					email: mail,
-					password: password,
-					isAdmin: false,
-					isDisabled: false,
-					isBlacklisted: false
+					password: password
 				})
 			});
 			const json = await res.json();
@@ -68,14 +96,14 @@
 </script>
 
 <svelte:head>
-	<title>Register</title>
+	<title>Account</title>
 	<meta name="register" content="register" />
 </svelte:head>
 
 <Toaster />
 
 <div class="text-column">
-	<h1>Register</h1>
+	<h1>My account</h1>
 	<div>
 		<input type="text" placeholder="Name" id="name" class="form-input" bind:value={name} required />
 		<label for="name" class="form-label">Name</label>
@@ -136,14 +164,11 @@
 		<label for="confirmPassword" class="form-label">Confirm password</label>
 	</div>
 	<div class="text-row">
-		<div class="switch-box">
-			<input type="checkbox" class="switch" bind:checked={isReaden} />
-			<p>&nbsp I have read the <a href="/termsPage">terms and conditions</a></p>
-		</div>
+		<p>I want to<button class="sign-out-button" on:click={signOut}>sign out</button></p>
 	</div>
 	<div class="buttons-row">
 		<button class="action-button" on:click={goBack}>Go back</button>
-		<button class="action-button" on:click={registerAcc}>Confirm </button>
+		<button class="action-button" on:click={editAcc}>Save changes </button>
 	</div>
 </div>
 
@@ -191,12 +216,23 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+		margin-top: -20px;
 	}
 
 	.buttons-row {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+	}
+
+	.sign-out-button {
+		background-color: transparent;
+		border-width: 0px;
+		color: #ff3e00;
+	}
+
+	.sign-out-button:hover {
+		cursor: pointer;
 	}
 
 	.action-button {
@@ -222,49 +258,5 @@
 		box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.25);
 		color: #fff;
 		transform: scale(1.05);
-	}
-
-	.switch-box {
-		display: flex;
-		width: 350px;
-		min-width: 200px;
-		justify-content: center;
-		align-items: center;
-		margin: 0 auto;
-		margin-bottom: 10px;
-	}
-
-	input[type='checkbox'].switch {
-		font-size: 15px;
-		appearance: none;
-		width: 3.5em;
-		height: 1.5em;
-		background: #ddd;
-		border-radius: 3em;
-		position: relative;
-		cursor: pointer;
-		outline: none;
-		transition: all 0.2s ease-in-out;
-	}
-
-	input[type='checkbox'].switch:checked {
-		background: #147efb;
-	}
-
-	input[type='checkbox'].switch:after {
-		position: absolute;
-		content: '';
-		width: 1.5em;
-		height: 1.5em;
-		border-radius: 50%;
-		background: #fff;
-		box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.3);
-		transform: scale(0.7);
-		left: 0;
-		transition: all 0.2s ease-in-out;
-	}
-
-	input[type='checkbox'].switch:checked:after {
-		left: calc(100% - 1.5em);
 	}
 </style>

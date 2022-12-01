@@ -1,13 +1,15 @@
 <script>
 	import { page } from '$app/stores';
 	import logo from '$lib/images/svelte-logo.svg';
-	import account from '$lib/images/account.svg';
+	import person from '$lib/images/person.svg';
+	import personoff from '$lib/images/personoff.svg';
+	import { storedUser } from '$lib/stores/user';
 </script>
 
 <header>
 	<div class="corner">
-		<a href="https://kit.svelte.dev">
-			<!-- <img src={logo} alt="SvelteKit" /> -->
+		<a href="/">
+			<img src={logo} alt="SvelteKit" />
 		</a>
 	</div>
 
@@ -16,9 +18,15 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/profile' ? 'page' : undefined}>
-				<a href="/profile">Profile</a>
-			</li>
+			{#if $storedUser.token.includes('Empty')}
+				<li aria-current={$page.url.pathname === '/loginForm' ? 'page' : undefined}>
+					<a href="/loginForm">Profile</a>
+				</li>
+			{:else}
+				<li aria-current={$page.url.pathname === '/editAccountForm' ? 'page' : undefined}>
+					<a href="/editAccountForm">Profile</a>
+				</li>
+			{/if}
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About</a>
 			</li>
@@ -26,9 +34,15 @@
 	</nav>
 
 	<div class="corner">
-		<a href="/about">
-			<!-- <img src={account} alt="account" /> -->
-		</a>
+		{#if $storedUser.token.includes('Empty')}
+			<a href="/loginForm">
+				<img src={personoff} alt="account" />
+			</a>
+		{:else}
+			<a href="/editAccountForm">
+				<img src={person} alt="account" />
+			</a>
+		{/if}
 	</div>
 </header>
 
@@ -45,7 +59,7 @@
 
 	.corner a {
 		display: flex;
-		align-items: center;
+		align-items: flex-end;
 		justify-content: center;
 		width: 100%;
 		height: 100%;
@@ -61,16 +75,6 @@
 		display: flex;
 		justify-content: center;
 		--background: rgba(255, 255, 255, 0.7);
-	}
-
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
-	}
-
-	path {
-		fill: var(--background);
 	}
 
 	ul {

@@ -2,17 +2,22 @@
 	// @ts-nocheck
 
 	import { onMount } from 'svelte';
+	import { storedUser } from '$lib/stores/user';
 	import toast, { Toaster } from 'svelte-french-toast';
 
 	let groups = new Array();
 	let expenses = new Array();
 	let userGroups = new Array();
-	let signedId = 1;
-	var totalExpenses = 0;
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
 		currency: 'DKK'
+	});
+
+	onMount(async () => {
+		if ($storedUser.token.includes('Empty')) {
+			window.location.href = '/loginForm';
+		}
 	});
 
 	async function removeMember(group, user) {
@@ -61,13 +66,12 @@
 			expenses = expenses;
 		});
 
-	onMount(async () => {
-		fetch('https://api-wan-kenobi.ovh/api/ShareGroup/GetAllGroups')
-			.then((response) => response.json())
-			.then((group) => {
-				groups = group;
-			});
-	});
+	$: fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsersGroups/' + $storedUser.id)
+		.then((response) => response.json())
+		.then((group) => {
+			groups = group;
+			groups = groups;
+		});
 </script>
 
 <Toaster />
@@ -83,9 +87,9 @@
 			<div class="card">
 				<div>
 					<div class="card-title-row">
-						<div class="card-title">{group.name}</div>
+						<div class="card-title">{group.group.name}</div>
 					</div>
-					<h3 class="card-subtitle">{group.description}</h3>
+					<h3 class="card-subtitle">{group.group.description}</h3>
 				</div>
 				<div class="chip-row">
 					{#each userGroups
@@ -222,12 +226,16 @@
 		border-radius: 10px;
 		background: #ffffff;
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
-		transition: all 0.2s;
+		transition: all 0.2s ease-in;
 	}
 
 	.card:hover {
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
 		transform: scale(1.01);
+	}
+
+	.card:expanded {
+		transition: min-height 0.25s ease-in;
 	}
 
 	.card-title-row {
@@ -328,6 +336,19 @@
 		font-size: 1.25rem;
 		font-weight: 300;
 		list-style: none;
+	}
+
+	details {
+		transition: height 0.4s ease;
+		overflow: hidden;
+	}
+
+	details:not([open]) {
+		height: 2.5em;
+	}
+
+	details[open] {
+		height: 10em;
 	}
 
 	details summary:before {

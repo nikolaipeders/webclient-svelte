@@ -25,6 +25,10 @@
 		window.location.href = '/';
 	}
 
+	function goBack() {
+		history.back();
+	}
+
 	async function addMember(user) {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/JoinExistingGroup', {
 			method: 'POST',

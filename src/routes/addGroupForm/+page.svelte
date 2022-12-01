@@ -1,5 +1,6 @@
 <script>
 	import toast, { Toaster } from 'svelte-french-toast';
+	import { storedUser } from '$lib/stores/user';
 
 	var name = '';
 	var description = '';
@@ -21,7 +22,7 @@
 			body: JSON.stringify({
 				name: name,
 				description: description,
-				userID: '2',
+				userID: $storedUser.id,
 				isPublic: isPublic
 			})
 		});

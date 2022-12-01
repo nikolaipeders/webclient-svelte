@@ -1,13 +1,59 @@
 <script>
-	let mail = '';
+	import toast, { Toaster } from 'svelte-french-toast';
+	import { storedUser } from '$lib/stores/user';
+
+	let username = '';
 	let pass = '';
+	let result = null;
+	let users = new Array();
+
+	$: fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers')
+		.then((response) => response.json())
+		.then((data) => {
+			users = data;
+			users = users;
+		});
 
 	function goBack() {
 		history.back();
 	}
 
-	function signIn() {
-		history.back();
+	async function signIn() {
+		if (
+			(typeof username === 'string' && username.length === 0) ||
+			(typeof pass === 'string' && pass.length === 0)
+		) {
+			toast.error('Missing inputs', {
+				position: 'bottom-center'
+			});
+		} else {
+			const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Login/', {
+				method: 'POST',
+				headers: { 'Content-type': 'application/json' },
+				body: JSON.stringify({
+					userName: username,
+					password: pass
+				})
+			});
+			const json = await res.text();
+			result = JSON.stringify(json);
+
+			let user = users.find((u) => u.userName === username);
+
+			if (!result.includes('Already logged in')) {
+				$storedUser.token = result;
+				$storedUser.id = user.userId;
+				$storedUser.username = user.username;
+			}
+
+			toast.success('Logged in as ' + username, {
+				position: 'bottom-center'
+			});
+
+			console.log(user);
+
+			goBack();
+		}
 	}
 </script>
 
@@ -16,18 +62,20 @@
 	<meta name="profile" content="profile" />
 </svelte:head>
 
+<Toaster />
+
 <div class="text-column">
 	<h1>Sign in</h1>
 	<div>
 		<input
-			type="email"
-			placeholder="Mail"
-			id="mail"
+			type="text"
+			placeholder="Username"
+			id="username"
 			class="form-input"
-			bind:value={mail}
+			bind:value={username}
 			required
 		/>
-		<label for="search" class="form-label">Mail</label>
+		<label for="username" class="form-label">Username</label>
 	</div>
 	<div>
 		<input
