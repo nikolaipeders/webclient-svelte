@@ -33,9 +33,6 @@
 		toast.success('Member removed from group', {
 			position: 'bottom-center'
 		});
-
-		const json = await res.json();
-		result = JSON.stringify(json);
 	}
 
 	async function deleteExpense(id) {
@@ -87,9 +84,9 @@
 			<div class="card">
 				<div>
 					<div class="card-title-row">
-						<div class="card-title">{group.group.name}</div>
+						<div class="card-title">{group.name}</div>
 					</div>
-					<h3 class="card-subtitle">{group.group.description}</h3>
+					<h3 class="card-subtitle">{group.description}</h3>
 				</div>
 				<div class="chip-row">
 					{#each userGroups
@@ -146,7 +143,9 @@
 								<li>
 									<a href="/membersForm?reference={group.groupId}&name={group.name}">Members</a>
 								</li>
-								<li><a href="/details?reference={group.groupId}&name={group.name}">Details</a></li>
+								<li>
+									<a href="/details?reference={group.groupId}&name={group.name}">Details</a>
+								</li>
 							</div>
 						</div>
 					</div>

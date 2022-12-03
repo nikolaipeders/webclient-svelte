@@ -34,7 +34,7 @@
 	</nav>
 
 	<div class="corner">
-		{#if $storedUser.token.includes('Empty')}
+		<!-- {#if $storedUser.token.includes('Empty')}
 			<a href="/loginForm">
 				<img src={personoff} alt="account" />
 			</a>
@@ -42,7 +42,7 @@
 			<a href="/editAccountForm">
 				<img src={person} alt="account" />
 			</a>
-		{/if}
+		{/if} -->
 	</div>
 </header>
 
@@ -125,5 +125,95 @@
 
 	a:hover {
 		color: var(--color-theme-1);
+	}
+
+	.burger-drop,
+	.nav,
+	.menu {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: auto;
+	}
+
+	.nav {
+		position: relative;
+		background-color: #fff;
+		padding: 10px;
+		transition: 0.5s;
+		border-radius: 50px;
+		overflow: hidden;
+		box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+	}
+
+	.menu {
+		margin: 0;
+		padding: 0;
+		width: 0;
+		overflow: hidden;
+		transition: 0.5s;
+	}
+
+	.nav input:checked ~ .menu {
+		width: 450px;
+	}
+
+	.menu li {
+		list-style: none;
+		white-space: nowrap;
+		font-size: 14px;
+		margin: 0 10px;
+		margin-top: 0px;
+	}
+
+	.menu li a {
+		text-decoration: none;
+		color: #666;
+		text-transform: uppercase;
+		vertical-align: middle;
+		letter-spacing: 0.5px;
+		font-weight: 600;
+		transition: 0.5s;
+	}
+
+	.menu li a:hover {
+		color: #147efb;
+	}
+
+	.nav input {
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		opacity: 0;
+	}
+
+	.nav span {
+		position: absolute;
+		left: 15px;
+		width: 17px;
+		height: 2px;
+		border-radius: 50px;
+		background-color: #666;
+		pointer-events: none;
+		transition: 0.5s;
+	}
+
+	.nav input:checked ~ span {
+		background-color: #fc3c44;
+	}
+
+	.nav span:nth-child(2) {
+		transform: translateY(-4px);
+	}
+
+	.nav input:checked ~ span:nth-child(2) {
+		transform: translateY(0) rotate(-45deg);
+	}
+	.nav span:nth-child(3) {
+		transform: translateY(4px);
+	}
+
+	.nav input:checked ~ span:nth-child(3) {
+		transform: translateY(0) rotate(45deg);
 	}
 </style>
