@@ -90,15 +90,15 @@
 				</div>
 				<div class="chip-row">
 					{#each userGroups
-						.filter((data) => data.groupId == group.groupId)
+						.filter((data) => data.groupId == group.groupID)
 						.map((data) => data.user) as member}
-						<button class="chip" on:click={removeMember(group.groupId, member.userId)}>
+						<button class="chip" on:click={removeMember(group.groupID, member.userId)}>
 							<span>{member.firstName}</span>
 						</button>
 					{/each}
 				</div>
 				<ul class="expenses-list">
-					{#each expenses.filter((data) => data.groupId == group.groupId) as expense}
+					{#each expenses.filter((data) => data.groupId == group.groupID) as expense}
 						<details>
 							<summary>
 								<span> &nbsp &nbsp </span>
@@ -133,18 +133,18 @@
 							<span />
 							<span />
 							<div class="menu">
-								<li><a href="/addExpenseForm?reference={group.groupId}">Add expense</a></li>
+								<li><a href="/addExpenseForm?reference={group.groupID}">Add expense</a></li>
 								<li>
 									<a
-										href="/editGroupForm?reference={group.groupId}&name={group.name}&des={group.description}&show={group.isPublic}"
+										href="/editGroupForm?reference={group.groupID}&name={group.name}&des={group.description}&show={group.isPublic}"
 										>Configure</a
 									>
 								</li>
 								<li>
-									<a href="/membersForm?reference={group.groupId}&name={group.name}">Members</a>
+									<a href="/membersForm?reference={group.groupID}&name={group.name}">Members</a>
 								</li>
 								<li>
-									<a href="/details?reference={group.groupId}&name={group.name}">Details</a>
+									<a href="/details?reference={group.groupID}&name={group.name}">Details</a>
 								</li>
 							</div>
 						</div>
@@ -154,7 +154,7 @@
 					<in class="sum">
 						Total: {formatter.format(
 							expenses
-								.filter((data) => data.groupId == group.groupId)
+								.filter((data) => data.groupID == group.groupID)
 								.map((data) => data.amount)
 								.reduce((partialSum, a) => partialSum + a, 0)
 						)}</in

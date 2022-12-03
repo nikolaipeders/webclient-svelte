@@ -34,7 +34,7 @@
 				<h3 class="card-subtitle">Details</h3>
 			</div>
 			<div class="chip-row" />
-			{#if distributions.length < 0}
+			{#if distributions.length > 0}
 				<ul class="distribution-list">
 					{#each distributions as distribution}
 						<details>

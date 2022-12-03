@@ -47,7 +47,7 @@
 			if (!result.includes('Already logged in')) {
 				$storedUser.token = result;
 				$storedUser.id = user.userId;
-				$storedUser.username = user.username;
+				$storedUser.username = user.userName;
 			}
 
 			toast.success('Logged in as ' + username, {

@@ -1,6 +1,7 @@
 <script>
 	import Header from './Header.svelte';
 	import './styles.css';
+	import { storedUser } from '$lib/stores/user';
 </script>
 
 <div class="app">
@@ -11,7 +12,12 @@
 	</main>
 
 	<footer>
-		<p>go to <a href="/about">about</a> to learn about this app</p>
+		{#if $storedUser.token.includes('Empty')}
+			<p>click <a href="/loginForm">here</a> to sign and use the app</p>
+		{:else}
+			<p>logged in as <a href="/editAccountForm">{$storedUser.username}</a></p>
+			<!-- <p>go to <a href="/about">about</a> to learn about this app</p> -->
+		{/if}
 	</footer>
 </div>
 
