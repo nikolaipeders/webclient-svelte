@@ -34,32 +34,35 @@
 				<h3 class="card-subtitle">Details</h3>
 			</div>
 			<div class="chip-row" />
-			<ul class="distribution-list">
-				{#each distributions as distribution}
-					<details>
-						<summary>
-							{distribution.firstName}
-						</summary>
-						<in class="distribution-item">
-							Expenses
-							<in>{formatter.format(distribution.amountPaidDuringGroup)}</in>
-						</in>
-						<in class="distribution-item">
-							{#if distribution.finalAmountOwed >= 0}
-								Owes
-							{/if}
-							{#if distribution.finalAmountOwed < 0}
-								Needs
-							{/if}
-							<in>{formatter.format(distribution.finalAmountOwed)}</in>
-						</in>
-						<in class="distribution-item">
-							Has paid
-							<in>{formatter.format(distribution.amountAlreadyPaid)}</in>
-						</in>
-					</details>
-				{/each}
-			</ul>
+			{#if distributions.length < 0}
+				<ul class="distribution-list">
+					{#each distributions as distribution}
+						<details>
+							<summary>
+								{distribution.firstName}
+							</summary>
+							<in class="distribution-item">
+								Expenses
+								<in>{formatter.format(distribution.amountPaidDuringGroup)}</in>
+							</in>
+							<in class="distribution-item">
+								{#if distribution.finalAmountOwed >= 0}
+									Owes
+								{/if}
+								{#if distribution.finalAmountOwed < 0}
+									Needs
+								{/if}
+								<in>{formatter.format(distribution.finalAmountOwed)}</in>
+							</in>
+							<in class="distribution-item">
+								Has paid
+								<in>{formatter.format(distribution.amountAlreadyPaid)}</in>
+							</in>
+						</details>
+					{/each}
+				</ul>
+			{/if}
+
 			<div class="action-buttons-row">
 				<div class="burger-drop">
 					<div class="nav">
