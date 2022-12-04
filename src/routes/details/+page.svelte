@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
@@ -24,7 +25,7 @@
 	}
 </script>
 
-<div class="text-column">
+<div in:fade class="text-column">
 	<div class="cards">
 		<div class="card card-1">
 			<div>

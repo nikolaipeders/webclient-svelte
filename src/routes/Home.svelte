@@ -8,6 +8,9 @@
 	let groups = new Array();
 	let expenses = new Array();
 	let userGroups = new Array();
+	let users = new Array();
+	let user = {};
+	let userFound = false;
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
@@ -68,6 +71,14 @@
 		.then((group) => {
 			groups = group;
 			groups = groups;
+		});
+
+	$: fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers/')
+		.then((response) => response.json())
+		.then((data) => {
+			users = data;
+			users = users;
+			// user = users.find((u) => u.userId == $storedUser.id);
 		});
 </script>
 
@@ -274,14 +285,15 @@
 		padding: 0 10px;
 		margin: 2px;
 		height: 25px;
+		width: auto;
 		font-size: 12px;
 		font-weight: 600;
 		line-height: 25px;
 		border-radius: 25px;
 		border-width: 0px;
 		background-color: #147efb;
-		/* background-color: #007AFF; */
 		color: #f5f5f4;
+		transition: width 0.5s ease-in-out, background-color 0.2s ease-in-out;
 	}
 
 	.chip:hover span {
@@ -295,6 +307,7 @@
 
 	.chip:hover:before {
 		content: 'Remove';
+		min-width: 60px;
 	}
 
 	.expenses-list {

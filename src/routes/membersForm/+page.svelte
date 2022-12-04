@@ -127,24 +127,21 @@
 	.chip-row {
 		margin-bottom: 15px;
 		width: 350px;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: left;
 	}
 
 	.chip {
-		display: inline-flex;
 		padding: 0 10px;
-		margin: 5px;
+		margin: 2px;
 		height: 25px;
+		width: auto;
 		font-size: 12px;
 		font-weight: 600;
 		line-height: 25px;
 		border-radius: 25px;
 		border-width: 0px;
 		background-color: #147efb;
-		/* background-color: #007AFF; */
 		color: #f5f5f4;
+		transition: width 0.5s ease-in-out, background-color 0.2s ease-in-out;
 	}
 
 	.chip:hover span {
@@ -154,6 +151,7 @@
 	.chip:hover {
 		background-color: #53d769;
 		cursor: pointer;
+		min-width: 100px;
 	}
 
 	.chip:hover:before {
