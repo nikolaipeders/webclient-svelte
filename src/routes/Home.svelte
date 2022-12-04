@@ -487,6 +487,10 @@
 		box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 	}
 
+	.nav:hover {
+		box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+	}
+
 	.menu {
 		margin: 0;
 		padding: 0;

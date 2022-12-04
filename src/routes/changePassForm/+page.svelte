@@ -103,48 +103,43 @@
 <Toaster />
 
 <div class="text-column">
-	<h1>My account</h1>
+	<h1>Change password</h1>
 	<div>
-		<input type="text" placeholder="Name" id="name" class="form-input" bind:value={name} required />
-		<label for="name" class="form-label">Name</label>
+		<input
+			type="password"
+			placeholder="Current Password"
+			id="password"
+			class="form-input"
+			bind:value={password}
+			required
+		/>
+		<label for="password" class="form-label">Password</label>
 	</div>
 	<div>
 		<input
-			type="text"
-			placeholder="Last name"
-			id="lastName"
+			type="password"
+			placeholder="New password"
+			id="confirmPassword"
 			class="form-input"
-			bind:value={lastName}
+			bind:value={passwordConfirmation}
 			required
 		/>
-		<label for="lastName" class="form-label">Last name</label>
+		<label for="confirmPassword" class="form-label">Confirm password</label>
 	</div>
 	<div>
 		<input
-			type="text"
-			placeholder="Username"
-			id="username"
+			type="password"
+			placeholder="New confirm password"
+			id="confirmPassword"
 			class="form-input"
-			bind:value={username}
+			bind:value={passwordConfirmation}
 			required
 		/>
-		<label for="username" class="form-label">Username</label>
+		<label for="confirmPassword" class="form-label">Confirm password</label>
 	</div>
-	<div>
-		<input
-			type="email"
-			placeholder="Mail"
-			id="mail"
-			class="form-input"
-			bind:value={mail}
-			required
-		/>
-		<label for="mail" class="form-label">Mail</label>
-	</div>
-
-	<div class="text-row">
-		<p>I want to <a href="/changePassForm" class="sign-out-button">change password</a></p>
-	</div>
+	<!-- <div class="text-row">
+		<p>I want to<button class="sign-out-button" on:click={signOut}>change password</button></p>
+	</div> -->
 	<div class="buttons-row">
 		<button class="action-button" on:click={goBack}>Go back</button>
 		<button class="action-button" on:click={editAcc}>Save changes </button>
