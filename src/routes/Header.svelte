@@ -3,6 +3,8 @@
 	import { storedUser } from '$lib/stores/user';
 	import toast, { Toaster } from 'svelte-french-toast';
 
+	let invites = 0;
+
 	async function signOut() {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Logout/' + $storedUser.id, {
 			method: 'POST',
@@ -51,6 +53,14 @@
 					</div>
 				</div>
 			</li>
+			<li>
+				<div class="dropdown">
+					<button class="notification-button" />
+					<div class="dropdown-content">
+						<a href="/addGroupForm" class="dropdown-item">Invites ({invites})</a>
+					</div>
+				</div>
+			</li>
 		</ul>
 	</nav>
 </header>
@@ -72,7 +82,7 @@
 		padding: 0;
 		margin: 10px;
 		height: 3em;
-		width: 20em;
+		width: 26em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -85,6 +95,8 @@
 	li {
 		position: relative;
 		height: 100%;
+		display: flex;
+		align-items: center;
 	}
 
 	li[aria-current='page']::before {
@@ -149,7 +161,6 @@
 		transform: translateX(-50%);
 		z-index: 1;
 		background: var(--background);
-		/* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); */
 		transition: all 0.4s ease-in-out;
 		border-radius: 0px 0px 10px 10px;
 	}
@@ -171,5 +182,38 @@
 	.dropdown-item:hover {
 		background-color: #f5f8fa;
 		border-radius: 0px 0px 10px 10px;
+	}
+
+	.notification-button {
+		position: relative;
+		margin-left: 10px;
+		width: 40px;
+		height: 100%;
+		line-height: 40px;
+		border: none;
+		border-radius: 5px;
+		background-color: transparent;
+		color: #fff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.notification-button:hover {
+		cursor: pointer;
+	}
+
+	.notifications:empty {
+		filter: grayscale(100%);
+	}
+
+	/* Style the notification bell icon */
+	.notification-button:before {
+		content: '\1F514';
+		font-family: 'Font Awesome 5 Brands';
+		font-weight: 900;
+		font-size: 24px;
+		display: inline-block;
+		vertical-align: middle;
 	}
 </style>

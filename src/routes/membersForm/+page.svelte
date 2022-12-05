@@ -58,7 +58,7 @@
 <Toaster />
 
 <div class="text-column">
-	<h1>Add member</h1>
+	<h1>Invite user</h1>
 	<div>
 		<input
 			type="text"
@@ -158,7 +158,7 @@
 	}
 
 	.chip:hover:before {
-		content: 'Add';
+		content: 'Send invite';
 	}
 
 	.buttons-row {

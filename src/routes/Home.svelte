@@ -111,7 +111,7 @@
 		});
 
 	$: filteredGroups = groups.filter((group) =>
-		group.name.toLowerCase().includes(searchTerm.toLowerCase())
+		group.name ? group.name : ''.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 </script>
 
@@ -188,7 +188,7 @@
 									>
 								</li>
 								<li>
-									<a href="/membersForm?reference={group.groupId}&name={group.name}">Members</a>
+									<a href="/membersForm?reference={group.groupId}&name={group.name}">Send invite</a>
 								</li>
 								<li>
 									<a href="/details?reference={group.groupId}&name={group.name}">Details</a>
@@ -222,6 +222,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		min-width: 600px;
 		margin: 15px;
 		margin-bottom: 0px;
 	}

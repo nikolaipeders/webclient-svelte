@@ -9,7 +9,9 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"test": "playwright test",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"deploy": "npm run build && gh-pages -d public"
+
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
@@ -32,6 +34,7 @@
 	"dependencies": {
 		"@auth0/auth0-spa-js": "^2.0.0",
 		"firebase": "^9.14.0",
+		"gh-pages": "^4.0.0",
 		"node-fetch": "^3.3.0",
 		"rxfire": "^6.0.3",
 		"rxjs": "^7.5.7",

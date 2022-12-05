@@ -1,10 +1,6 @@
 <script>
 	/** @type {import('./$types').PageData} */
 	export let data;
-
-	function goBack() {
-		history.back();
-	}
 </script>
 
 <div class="text-column">
@@ -26,7 +22,7 @@
 		</div>
 	</div>
 	<div class="buttons-row">
-		<button class="action-button" on:click={goBack}>Go back</button>
+		<button class="action-button" on:click={() => window.close()}>Close</button>
 	</div>
 </div>
 

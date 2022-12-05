@@ -27,8 +27,8 @@
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify({
 				groupID: reference,
-				newGroupName: name,
-				newGroupDescription: description,
+				name: name,
+				description: description,
 				isPublic: isPublic
 			})
 		});

@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import { storedUser } from '$lib/stores/user';
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
@@ -12,6 +13,12 @@
 	var name = '' + $page.url.searchParams.get('name');
 	var distributions = new Array();
 
+	function goBack() {
+		window.history.back();
+	}
+
+	function pay() {}
+
 	onMount(async () => {
 		fetch('https://api-wan-kenobi.ovh/api/UserGroup/MoneyOwedByEveryoneInGroupID/' + reference)
 			.then((response) => response.json())
@@ -19,10 +26,6 @@
 				distributions = data;
 			});
 	});
-
-	function goBack() {
-		window.history.back();
-	}
 </script>
 
 <div in:fade class="text-column">
@@ -99,6 +102,7 @@
 		grid-template-rows: auto auto auto auto;
 		grid-template-columns: 2fr 1fr;
 		border-radius: 10px;
+		background: #ffffff;
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
 		transition: all 0.2s;
 	}
@@ -131,10 +135,6 @@
 		margin-top: 0px;
 		letter-spacing: 0.75px;
 		font-weight: 400;
-	}
-
-	.card-1 {
-		background: #ffffff;
 	}
 
 	details summary {

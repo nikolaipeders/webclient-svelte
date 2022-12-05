@@ -138,7 +138,7 @@
 	<div class="text-row">
 		<div class="switch-box">
 			<input type="checkbox" class="switch" bind:checked={isReaden} />
-			<p>&nbsp I have read the <a href="/termsPage">terms and conditions</a></p>
+			<p>&nbsp I have read the <a href="/termsPage" target="_blank">terms and conditions</a></p>
 		</div>
 	</div>
 	<div class="buttons-row">

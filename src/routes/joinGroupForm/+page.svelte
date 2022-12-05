@@ -26,6 +26,7 @@
 	$: filteredList = groups.filter(
 		(group) =>
 			group.isPublic == true &&
+			group.name !== null &&
 			group.name.toUpperCase().includes(searchTerm.length > 0 ? searchTerm.toUpperCase() : 'xyz')
 	);
 

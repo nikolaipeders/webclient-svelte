@@ -153,6 +153,5 @@
 		box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.25);
 		color: #fff;
 		transform: scale(1.05);
-		/* transform: translateY(-7px); */
 	}
 </style>
