@@ -11,19 +11,23 @@
 	let searchTerm = '';
 	let groups = new Array();
 
+	onMount(async () => {
+		if ($storedUser.token.includes('Empty')) {
+			window.location.href = '/loginForm';
+		}
+	});
+
+	fetch('https://api-wan-kenobi.ovh/api/ShareGroup/GetAllGroups')
+		.then((response) => response.json())
+		.then((group) => {
+			groups = group;
+		});
+
 	$: filteredList = groups.filter(
 		(group) =>
 			group.isPublic == true &&
 			group.name.toUpperCase().includes(searchTerm.length > 0 ? searchTerm.toUpperCase() : 'xyz')
 	);
-
-	onMount(async () => {
-		fetch('https://api-wan-kenobi.ovh/api/ShareGroup/GetAllGroups')
-			.then((response) => response.json())
-			.then((group) => {
-				groups = group;
-			});
-	});
 
 	async function goHome() {
 		window.location.href = '/';
@@ -101,7 +105,7 @@
 		width: 350px;
 		height: 20px;
 		padding: 0.75rem 2rem;
-		border-radius: 40px;
+		border-radius: 10px;
 		background-color: white;
 		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 		border: none;
@@ -140,7 +144,6 @@
 		padding: 0 10px;
 		margin: 2px;
 		height: 25px;
-		width: auto;
 		font-size: 12px;
 		font-weight: 600;
 		line-height: 25px;
@@ -158,7 +161,7 @@
 	.chip:hover {
 		background-color: #53d769;
 		cursor: pointer;
-		min-width: 100px;
+		min-width: 90px;
 	}
 
 	.chip:hover:before {
@@ -182,7 +185,7 @@
 		color: #000;
 		background-color: #fff;
 		border: none;
-		border-radius: 45px;
+		border-radius: 10px;
 		box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 		transition: all 0.3s ease 0s;
 		cursor: pointer;

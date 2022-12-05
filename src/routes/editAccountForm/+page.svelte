@@ -164,7 +164,7 @@
 		width: 350px;
 		height: 20px;
 		padding: 0.75rem 2rem;
-		border-radius: 40px;
+		border-radius: 10px;
 		background-color: white;
 		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 		border: none;
@@ -225,7 +225,7 @@
 		color: #000;
 		background-color: #fff;
 		border: none;
-		border-radius: 45px;
+		border-radius: 10px;
 		box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 		transition: all 0.3s ease 0s;
 		cursor: pointer;

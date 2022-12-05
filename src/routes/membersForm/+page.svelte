@@ -97,7 +97,7 @@
 		width: 350px;
 		height: 20px;
 		padding: 0.75rem 2rem;
-		border-radius: 40px;
+		border-radius: 10px;
 		background-color: white;
 		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 		border: none;
@@ -133,7 +133,6 @@
 		padding: 0 10px;
 		margin: 2px;
 		height: 25px;
-		width: auto;
 		font-size: 12px;
 		font-weight: 600;
 		line-height: 25px;
@@ -144,6 +143,10 @@
 		transition: width 0.5s ease-in-out, background-color 0.2s ease-in-out;
 	}
 
+	.chip span {
+		min-width: 90px;
+	}
+
 	.chip:hover span {
 		display: none;
 	}
@@ -151,7 +154,7 @@
 	.chip:hover {
 		background-color: #53d769;
 		cursor: pointer;
-		min-width: 100px;
+		min-width: 90px;
 	}
 
 	.chip:hover:before {
@@ -175,7 +178,7 @@
 		color: #000;
 		background-color: #fff;
 		border: none;
-		border-radius: 45px;
+		border-radius: 10px;
 		box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 		transition: all 0.3s ease 0s;
 		cursor: pointer;
@@ -187,6 +190,5 @@
 		box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.25);
 		color: #fff;
 		transform: scale(1.05);
-		/* transform: translateY(-7px); */
 	}
 </style>

@@ -26,21 +26,21 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<!-- {#if $storedUser.token.includes('Empty')}
-				<li aria-current={$page.url.pathname === '/loginForm' ? 'page' : undefined}>
-					<a href="/loginForm">Profile</a>
-				</li>
-			{:else}
-				<li aria-current={$page.url.pathname === '/editAccountForm' ? 'page' : undefined}>
-					<a href="/editAccountForm">Profile</a>
-				</li>
-			{/if} -->
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About</a>
 			</li>
+			<li aria-current={$page.url.pathname === '/addGroupForm' ? 'page' : undefined}>
+				<div class="dropdown">
+					<a href="/" class="dropdown-button"> Groups </a>
+					<div class="dropdown-content">
+						<a href="/addGroupForm" class="dropdown-item">Add group</a>
+						<a href="/joinGroupForm" class="dropdown-item">Join group</a>
+					</div>
+				</div>
+			</li>
 			<li aria-current={$page.url.pathname === '/editAccountForm' ? 'page' : undefined}>
 				<div class="dropdown">
-					<button class="dropdown-button"> Profile </button>
+					<a href="/editAccountForm" class="dropdown-button"> Profile </a>
 					<div class="dropdown-content">
 						{#if $storedUser.token.includes('Empty')}
 							<a href="/loginForm" class="dropdown-item">Sign in</a>
@@ -72,7 +72,7 @@
 		padding: 0;
 		margin: 10px;
 		height: 3em;
-		width: 16em;
+		width: 20em;
 		display: flex;
 		justify-content: center;
 		align-items: center;

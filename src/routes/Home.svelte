@@ -11,6 +11,7 @@
 	let users = new Array();
 	let user = {};
 	let userFound = false;
+	let searchTerm = '';
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
@@ -52,6 +53,34 @@
 		result = JSON.stringify(json);
 	}
 
+	function handleSort(event) {
+		console.log('works');
+		const selectedValue = event.target.value;
+
+		// Create a copy of the groups array
+		let sortedGroups = groups.slice();
+
+		switch (selectedValue) {
+			case 'recent':
+				break;
+			case 'alphabet':
+				// Sort the copy of the array
+				sortedGroups.sort(function (a, b) {
+					if (a.name > b.name) {
+						return 1;
+					} else if (a.name < b.name) {
+						return -1;
+					} else {
+						return 0;
+					}
+				});
+				break;
+		}
+
+		// Use the sorted copy of the array instead of the original array
+		filteredGroups = sortedGroups;
+	}
+
 	$: fetch('https://api-wan-kenobi.ovh/api/UserGroup/GetAllUserGroups')
 		.then((response) => response.json())
 		.then((userGroup) => {
@@ -66,7 +95,7 @@
 			expenses = expenses;
 		});
 
-	$: fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsersGroups/' + $storedUser.id)
+	fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsersGroups/' + $storedUser.id)
 		.then((response) => response.json())
 		.then((group) => {
 			groups = group;
@@ -80,17 +109,24 @@
 			users = users;
 			// user = users.find((u) => u.userId == $storedUser.id);
 		});
+
+	$: filteredGroups = groups.filter((group) =>
+		group.name.toLowerCase().includes(searchTerm.toLowerCase())
+	);
 </script>
 
 <Toaster />
 
 <div class="main-body">
-	<div class="add-button-div">
-		<a class="add-button" href="/addGroupForm"> Add group </a>
-		<a class="add-button" href="/joinGroupForm"> Join group </a>
+	<div class="row">
+		<input type="text" placeholder="Search" bind:value={searchTerm} class="search-field" />
+		<select on:change={handleSort} class="sort-dropdown">
+			<option value="recent">Sort by first added</option>
+			<option value="alphabet">Sort alphabetically</option>
+		</select>
 	</div>
 
-	{#each groups as group}
+	{#each filteredGroups as group}
 		<div class="cards">
 			<div class="card">
 				<div>
@@ -101,15 +137,15 @@
 				</div>
 				<div class="chip-row">
 					{#each userGroups
-						.filter((data) => data.groupId == group.groupID)
+						.filter((data) => data.groupId == group.groupId)
 						.map((data) => data.user) as member}
-						<button class="chip" on:click={removeMember(group.groupID, member.userId)}>
+						<button class="chip" on:click={removeMember(group.groupId, member.userId)}>
 							<span>{member.firstName}</span>
 						</button>
 					{/each}
 				</div>
 				<ul class="expenses-list">
-					{#each expenses.filter((data) => data.groupId == group.groupID) as expense}
+					{#each expenses.filter((data) => data.groupId == group.groupId) as expense}
 						<details>
 							<summary>
 								<span> &nbsp &nbsp </span>
@@ -144,18 +180,18 @@
 							<span />
 							<span />
 							<div class="menu">
-								<li><a href="/addExpenseForm?reference={group.groupID}">Add expense</a></li>
+								<li><a href="/addExpenseForm?reference={group.groupId}">Add expense</a></li>
 								<li>
 									<a
-										href="/editGroupForm?reference={group.groupID}&name={group.name}&des={group.description}&show={group.isPublic}"
+										href="/editGroupForm?reference={group.groupId}&name={group.name}&des={group.description}&show={group.isPublic}"
 										>Configure</a
 									>
 								</li>
 								<li>
-									<a href="/membersForm?reference={group.groupID}&name={group.name}">Members</a>
+									<a href="/membersForm?reference={group.groupId}&name={group.name}">Members</a>
 								</li>
 								<li>
-									<a href="/details?reference={group.groupID}&name={group.name}">Details</a>
+									<a href="/details?reference={group.groupId}&name={group.name}">Details</a>
 								</li>
 							</div>
 						</div>
@@ -165,7 +201,7 @@
 					<in class="sum">
 						Total: {formatter.format(
 							expenses
-								.filter((data) => data.groupID == group.groupID)
+								.filter((data) => data.groupId == group.groupId)
 								.map((data) => data.amount)
 								.reduce((partialSum, a) => partialSum + a, 0)
 						)}</in
@@ -182,41 +218,39 @@
 		/* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 	}
 
-	.add-button-div {
-		width: 100%;
-		text-align: center;
-		margin-top: 15px;
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin: 15px;
 		margin-bottom: 0px;
 	}
 
-	.add-button {
-		display: inline-block;
-		padding: 1em 3em;
-		font-size: 12px;
-		margin: 5px;
-		text-transform: uppercase;
-		text-decoration: none;
-		letter-spacing: 2.5px;
-		font-weight: 500;
-		color: #000;
-		background-color: #fff;
-		border: none;
-		border-radius: 45px;
-		box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-		transition: all 0.3s ease 0s;
-		cursor: pointer;
+	.search-field {
+		width: 100%;
+		height: 18px;
+		padding: 5px;
+		border-radius: 5px;
+		margin-right: 5px;
+		border: 1px solid #ccc;
+	}
+
+	.search-field:active,
+	.search-field:focus {
 		outline: none;
 	}
 
-	.add-button:hover {
-		background-color: #147efb;
-		box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.25);
-		color: #fff;
-		transform: scale(1.05);
+	.sort-dropdown {
+		width: 250px;
+		height: 30px;
+		padding: 5px;
+		border-radius: 5px;
+		border: 1px solid #ccc;
 	}
 
-	.add-button:active {
-		transform: translateY(-1px);
+	.sort-dropdown:active,
+	.sort-dropdown:focus {
+		outline: none;
 	}
 
 	.cards {
@@ -293,7 +327,11 @@
 		border-width: 0px;
 		background-color: #147efb;
 		color: #f5f5f4;
-		transition: width 0.5s ease-in-out, background-color 0.2s ease-in-out;
+		transition: width 1.5s ease-in-out, background-color 0.2s ease-in-out;
+	}
+
+	.chip:width {
+		width: auto;
 	}
 
 	.chip:hover span {
@@ -307,7 +345,6 @@
 
 	.chip:hover:before {
 		content: 'Remove';
-		min-width: 60px;
 	}
 
 	.expenses-list {
