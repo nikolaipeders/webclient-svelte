@@ -95,7 +95,7 @@
 			expenses = expenses;
 		});
 
-	fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsersGroups/' + $storedUser.id)
+	$: fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsersGroups/' + $storedUser.id)
 		.then((response) => response.json())
 		.then((group) => {
 			groups = group;

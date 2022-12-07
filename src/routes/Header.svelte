@@ -227,7 +227,6 @@
 		filter: grayscale(80%);
 	}
 
-	/* Style the notification bell icon */
 	.notification-button:before {
 		content: '\1F514';
 		font-family: 'Font Awesome 5 Brands';
