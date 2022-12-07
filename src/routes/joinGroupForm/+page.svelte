@@ -47,9 +47,6 @@
 		toast.success('Joined group', {
 			position: 'bottom-center'
 		});
-
-		const json = await res.json();
-		result = JSON.stringify(json);
 	}
 </script>
 
