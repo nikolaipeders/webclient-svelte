@@ -4,6 +4,7 @@
 	import toast, { Toaster } from 'svelte-french-toast';
 
 	export let visible = false;
+	export let reference = '';
 
 	let amount;
 
@@ -16,19 +17,15 @@
 	}
 
 	async function postPayment() {
-		// const res = await fetch('https://api-wan-kenobi.ovh/api/ShareGroup/PayIntoGroupPool', {
-		// 	method: 'POST',
-		// 	headers: { 'Content-type': 'application/json' },
-		// 	body: JSON.stringify({
-		// 		name: name,
-		// 		description: description,
-		// 		userID: $storedUser.id,
-		// 		isPublic: isPublic
-		// 	})
-		// });
-
-		// const json = await res.json();
-		// result = JSON.stringify(json);
+		const res = await fetch('https://api-wan-kenobi.ovh/api/InPayment/PayIntoGroupPool', {
+			method: 'POST',
+			headers: { 'Content-type': 'application/json' },
+			body: JSON.stringify({
+				userId: $storedUser.id,
+				groupId: reference,
+				amount: amount
+			})
+		});
 
 		toast.success('Payment registered', {
 			position: 'bottom-center'
@@ -38,6 +35,8 @@
 			visible = false;
 		}, 1000);
 	}
+
+	console.log(reference);
 </script>
 
 {#if visible}

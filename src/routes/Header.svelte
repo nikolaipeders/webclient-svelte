@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import { page } from '$app/stores';
 	import { storedUser } from '$lib/stores/user';
 	import toast, { Toaster } from 'svelte-french-toast';
@@ -6,7 +8,7 @@
 	let invites = new Array();
 
 	async function handleArrayLengthChange() {
-		toast('Good Job!', {
+		toast('New invite!', {
 			icon: '👋'
 		});
 	}
@@ -43,9 +45,9 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">Home</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+			<!-- <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About</a>
-			</li>
+			</li> -->
 			<li aria-current={$page.url.pathname === '/addGroupForm' ? 'page' : undefined}>
 				<div class="dropdown">
 					<a href="/" class="dropdown-button"> Groups </a>
@@ -75,9 +77,7 @@
 						class:empty={pendingInvites.length == 0 ? 'empty' : ''}
 					/>
 					<div class="dropdown-content">
-						<a href="/notifications" on:change={handleArrayLengthChange} class="dropdown-item"
-							>Invites ({pendingInvites.length})</a
-						>
+						<a href="/notifications" class="dropdown-item">Invites ({pendingInvites.length})</a>
 					</div>
 				</div>
 			</li>
@@ -102,7 +102,7 @@
 		padding: 0;
 		margin: 10px;
 		height: 3em;
-		width: 26em;
+		width: 22em;
 		display: flex;
 		justify-content: center;
 		align-items: center;

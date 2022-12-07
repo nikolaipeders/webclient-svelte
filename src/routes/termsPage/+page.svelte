@@ -1,6 +1,14 @@
 <script>
-	/** @type {import('./$types').PageData} */
-	export let data;
+	let terms = '';
+	let lastUpdate = '';
+
+	$: fetch('https://api-wan-kenobi.ovh/api/TermsOfService/GetLatestToS')
+		.then((response) => response.json())
+		.then((data) => {
+			terms = data.content;
+			lastUpdate = data.lastModificationDate;
+			terms = terms;
+		});
 </script>
 
 <div class="text-column">
@@ -10,14 +18,10 @@
 				<div class="card-title-row">
 					<div class="card-title">Terms of service</div>
 				</div>
-				<h3 class="card-subtitle">Last updated 28-11-2022</h3>
+				<h3 class="card-subtitle">Last updated {lastUpdate}</h3>
 			</div>
 			<div class="terms-section">
-				<in>
-					Please read these Terms and Conditions carefully before using this site. Your access to
-					and use of the Service is conditioned on your acceptance of and compliance with these
-					Terms. These Terms apply to all visitors, users and others who access or use the Service.
-				</in>
+				<in> {terms} </in>
 			</div>
 		</div>
 	</div>
@@ -80,7 +84,7 @@
 	.terms-section {
 		grid-column: 1/2;
 		column-span: all;
-		margin-top: 5px;
+		margin-top: 0px;
 		grid-row: 3/4;
 		width: 600px;
 		padding: 0;

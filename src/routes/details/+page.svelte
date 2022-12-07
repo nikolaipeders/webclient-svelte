@@ -3,7 +3,6 @@
 
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
 	import { storedUser } from '$lib/stores/user';
 	import PayModal from '../PayModal.svelte';
 	import toast, { Toaster } from 'svelte-french-toast';
@@ -30,6 +29,21 @@
 		showDialog = false;
 	}
 
+	async function downloadPdf() {
+		fetch('https://api-wan-kenobi.ovh/api/UserGroup/GetPDFSummaryOnGroupID/' + reference)
+			.then((response) => response.json())
+			.then((data) => {
+				const base64Pdf = data;
+
+				let pdfWindow = window.open('');
+				pdfWindow.document.write(
+					"<iframe width='100%' height='100%' src='data:application/pdf;base64, " +
+						encodeURI(base64Pdf) +
+						"'></iframe>"
+				);
+			});
+	}
+
 	onMount(async () => {
 		fetch('https://api-wan-kenobi.ovh/api/UserGroup/MoneyOwedByEveryoneInGroupID/' + reference)
 			.then((response) => response.json())
@@ -39,7 +53,7 @@
 	});
 </script>
 
-<div in:fade class="text-column">
+<div class="text-column">
 	<Toaster />
 	<div class="cards">
 		<div class="card card-1">
@@ -86,7 +100,7 @@
 						<span />
 						<span />
 						<div class="menu">
-							<li><button>Export to PDF</button></li>
+							<li><button on:click={downloadPdf}>Export to PDF</button></li>
 							<li><button>Conclude</button></li>
 							<li><button on:click={handleShowDialog}>Pay my share</button></li>
 							<li><button on:click={goBack}>Go back</button></li>
@@ -98,7 +112,12 @@
 	</div>
 </div>
 
-<PayModal on:close={handleCloseDialog} bind:visible={showDialog} on:close={handleCloseDialog} />
+<PayModal
+	on:close={handleCloseDialog}
+	bind:visible={showDialog}
+	bind:reference
+	on:close={handleCloseDialog}
+/>
 
 <style>
 	.cards {
@@ -123,7 +142,6 @@
 
 	.card:hover {
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
-		transform: scale(1.01);
 	}
 
 	.card-title-row {
