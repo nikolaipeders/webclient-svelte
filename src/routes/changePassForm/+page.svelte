@@ -186,27 +186,10 @@
 		background-color: #ffe9ec;
 	}
 
-	.text-row {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		margin-top: -20px;
-	}
-
 	.buttons-row {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-	}
-
-	.sign-out-button {
-		background-color: transparent;
-		border-width: 0px;
-		color: #ff3e00;
-	}
-
-	.sign-out-button:hover {
-		cursor: pointer;
 	}
 
 	.action-button {

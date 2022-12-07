@@ -3,7 +3,7 @@
 	import { storedUser } from '$lib/stores/user';
 	import toast, { Toaster } from 'svelte-french-toast';
 
-	let invites = 0;
+	let invites = new Array();
 
 	async function signOut() {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Logout/' + $storedUser.id, {
@@ -20,6 +20,13 @@
 
 		window.location.href = '/loginForm';
 	}
+
+	$: fetch('https://api-wan-kenobi.ovh/api/Expense/GetAllExpenses')
+		.then((response) => response.json())
+		.then((data) => {
+			invites = data;
+			invites = invites;
+		});
 </script>
 
 <header>
@@ -57,7 +64,7 @@
 				<div class="dropdown">
 					<button class="notification-button" />
 					<div class="dropdown-content">
-						<a href="/addGroupForm" class="dropdown-item">Invites ({invites})</a>
+						<a href="/notifications" class="dropdown-item">Invites ({invites.length})</a>
 					</div>
 				</div>
 			</li>

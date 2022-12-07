@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import toast, { Toaster } from 'svelte-french-toast';
+	import { storedUser } from '$lib/stores/user';
 
 	var reference = '' + $page.url.searchParams.get('reference');
 	var result = null;
@@ -13,33 +14,23 @@
 		user.firstName.toUpperCase().includes(searchTerm.length > 0 ? searchTerm.toUpperCase() : 'xyz')
 	);
 
-	onMount(async () => {
-		fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers')
-			.then((response) => response.json())
-			.then((user) => {
-				users = user;
-			});
-	});
-
 	async function goHome() {
 		window.location.href = '/';
 	}
 
-	function goBack() {
-		history.back();
-	}
-
-	async function addMember(user) {
-		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/JoinExistingGroup', {
+	async function inviteMember(user) {
+		const res = await fetch('https://api-wan-kenobi.ovh/api/Invites/InsertInvite', {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify({
-				groupID: reference,
-				userId: user
+				toUserId: user,
+				fromUserID: $storedUser.id,
+				fromGroupID: reference,
+				message: 'We need you in this group.'
 			})
 		});
 
-		toast.success('Added member', {
+		toast.success('Invite sent', {
 			position: 'bottom-center'
 		});
 
@@ -48,6 +39,14 @@
 
 		//await goHome()
 	}
+
+	onMount(async () => {
+		fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers')
+			.then((response) => response.json())
+			.then((user) => {
+				users = user;
+			});
+	});
 </script>
 
 <svelte:head>
@@ -73,7 +72,7 @@
 	<div>
 		<div class="chip-row">
 			{#each filteredList as user}
-				<button class="chip" on:click={addMember(user.userId)}>
+				<button class="chip" on:click={inviteMember(user.userId)}>
 					<span>{user.firstName}</span>
 				</button>
 			{/each}

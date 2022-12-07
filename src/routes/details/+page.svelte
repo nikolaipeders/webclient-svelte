@@ -1,8 +1,12 @@
 <script>
+	// @ts-nocheck
+
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { storedUser } from '$lib/stores/user';
+	import PayModal from '../PayModal.svelte';
+	import toast, { Toaster } from 'svelte-french-toast';
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
@@ -12,12 +16,19 @@
 	var reference = '' + $page.url.searchParams.get('reference');
 	var name = '' + $page.url.searchParams.get('name');
 	var distributions = new Array();
+	let showDialog = false;
 
 	function goBack() {
 		window.history.back();
 	}
 
-	function pay() {}
+	function handleShowDialog() {
+		showDialog = true;
+	}
+
+	function handleCloseDialog() {
+		showDialog = false;
+	}
 
 	onMount(async () => {
 		fetch('https://api-wan-kenobi.ovh/api/UserGroup/MoneyOwedByEveryoneInGroupID/' + reference)
@@ -29,6 +40,7 @@
 </script>
 
 <div in:fade class="text-column">
+	<Toaster />
 	<div class="cards">
 		<div class="card card-1">
 			<div>
@@ -76,7 +88,7 @@
 						<div class="menu">
 							<li><button>Export to PDF</button></li>
 							<li><button>Conclude</button></li>
-							<li><button>Pay my share</button></li>
+							<li><button on:click={handleShowDialog}>Pay my share</button></li>
 							<li><button on:click={goBack}>Go back</button></li>
 						</div>
 					</div>
@@ -85,6 +97,8 @@
 		</div>
 	</div>
 </div>
+
+<PayModal on:close={handleCloseDialog} bind:visible={showDialog} on:close={handleCloseDialog} />
 
 <style>
 	.cards {

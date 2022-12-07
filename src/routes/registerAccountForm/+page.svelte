@@ -11,6 +11,7 @@
 	let password = '';
 	let passwordConfirmation = '';
 	let result = null;
+	let users = new Array();
 
 	function goBack() {
 		history.back();
@@ -30,6 +31,14 @@
 			});
 		} else if (regexExpMail.test(mail) != true) {
 			toast.error('Please enter a valid email', {
+				position: 'bottom-center'
+			});
+		} else if (users.some((user) => user.userName == username) == true) {
+			toast.error('Username already taken', {
+				position: 'bottom-center'
+			});
+		} else if (users.some((user) => user.email == username) == true) {
+			toast.error('There is already a user with this email', {
 				position: 'bottom-center'
 			});
 		} else if (password !== passwordConfirmation) {
@@ -65,6 +74,14 @@
 			goBack();
 		}
 	}
+
+	$: fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers/')
+		.then((response) => response.json())
+		.then((data) => {
+			users = data;
+			users = users;
+			// user = users.find((u) => u.userId == $storedUser.id);
+		});
 </script>
 
 <svelte:head>

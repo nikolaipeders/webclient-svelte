@@ -188,7 +188,7 @@
 									>
 								</li>
 								<li>
-									<a href="/membersForm?reference={group.groupId}&name={group.name}">Send invite</a>
+									<a href="/sendinvite?reference={group.groupId}&name={group.name}">Send invite</a>
 								</li>
 								<li>
 									<a href="/details?reference={group.groupId}&name={group.name}">Details</a>
@@ -276,7 +276,6 @@
 
 	.card:hover {
 		box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
-		transform: scale(1.01);
 	}
 
 	.card:expanded {
