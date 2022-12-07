@@ -5,6 +5,12 @@
 
 	let invites = new Array();
 
+	async function handleArrayLengthChange() {
+		toast('Good Job!', {
+			icon: '👋'
+		});
+	}
+
 	async function signOut() {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Logout/' + $storedUser.id, {
 			method: 'POST',
@@ -21,12 +27,14 @@
 		window.location.href = '/loginForm';
 	}
 
-	$: fetch('https://api-wan-kenobi.ovh/api/Expense/GetAllExpenses')
+	$: fetch('https://api-wan-kenobi.ovh/api/Invites/GetAllInvitesToUser/' + $storedUser.id)
 		.then((response) => response.json())
 		.then((data) => {
 			invites = data;
 			invites = invites;
 		});
+
+	$: pendingInvites = invites.filter((invite) => invite.isPending === true);
 </script>
 
 <header>
@@ -62,9 +70,14 @@
 			</li>
 			<li>
 				<div class="dropdown">
-					<button class="notification-button" />
+					<button
+						class="notification-button"
+						class:empty={pendingInvites.length == 0 ? 'empty' : ''}
+					/>
 					<div class="dropdown-content">
-						<a href="/notifications" class="dropdown-item">Invites ({invites.length})</a>
+						<a href="/notifications" on:change={handleArrayLengthChange} class="dropdown-item"
+							>Invites ({pendingInvites.length})</a
+						>
 					</div>
 				</div>
 			</li>
@@ -210,8 +223,8 @@
 		cursor: pointer;
 	}
 
-	.notifications:empty {
-		filter: grayscale(100%);
+	.empty {
+		filter: grayscale(80%);
 	}
 
 	/* Style the notification bell icon */

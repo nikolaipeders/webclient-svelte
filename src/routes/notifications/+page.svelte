@@ -8,41 +8,28 @@
 	let invites = new Array();
 	let users = new Array();
 	let groups = new Array();
+	let result = null;
 
-	async function deleteInvite(id) {
-		const res = await fetch('https://api-wan-kenobi.ovh/api/Expense/DeleteExpenditure/' + id, {
-			method: 'DELETE',
-			headers: { 'Content-type': 'application/json' }
-		});
-
-		toast.success('Expense deleted', {
-			position: 'bottom-center'
-		});
-
-		const json = await res.json();
-		result = JSON.stringify(json);
-	}
-
-	async function acceptInvite(user) {
-		const res = await fetch('https://api-wan-kenobi.ovh/api/Invites/InsertInvite', {
+	async function acceptInvite(group) {
+		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/JoinExistingGroup', {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify({
-				toUserId: user,
-				fromUserID: $storedUser.id,
-				fromGroupID: reference,
-				message: 'We need you in this group.'
+				userID: $storedUser.id,
+				groupID: group
 			})
 		});
 
-		toast.success('Invite sent', {
+		toast.success('Invite accepted', {
 			position: 'bottom-center'
 		});
+	}
 
-		const json = await res.json();
-		result = JSON.stringify(json);
-
-		//await goHome()
+	async function endInvite(invite) {
+		const res = await fetch('https://api-wan-kenobi.ovh/api/Invites/EndInvite/' + invite, {
+			method: 'PUT',
+			headers: { 'Content-type': 'application/json' }
+		});
 	}
 
 	$: fetch('https://api-wan-kenobi.ovh/api/Invites/GetAllInvitesToUser/' + $storedUser.id)
@@ -71,6 +58,8 @@
 			window.location.href = '/loginForm';
 		}
 	});
+
+	$: pendingInvites = invites.filter((invite) => invite.isPending === true);
 </script>
 
 <Toaster />
@@ -78,24 +67,29 @@
 <div class="text-column">
 	<h1>Invites</h1>
 
-	{#if invites.length > 0}
-		{#each invites as invite}
+	{#if pendingInvites.length > 0 && users.length > 0 && groups.length > 0}
+		{#each pendingInvites as invite}
 			<div class="cards">
 				<div class="card">
 					<div>
 						<div class="card-title-row">
 							<div class="card-title">
-								{groups.find((group) => group.groupId === 1).name}
+								{groups.find((group) => group.groupId === invite.groupId).name}
 							</div>
 						</div>
 						<h3 class="card-subtitle">
-							Invited by {users.find((user) => user.userId === 7).firstName}
+							Invited by {users.find((user) => user.userId === invite.senderId).firstName}
 						</h3>
 						<h3 class="card-from">{invite.message}</h3>
 					</div>
 					<div class="action-buttons-row">
-						<button class="action-button accept">Accept</button>
-						<button class="action-button delete">Delete</button>
+						<button
+							class="action-button accept"
+							on:click={[acceptInvite(invite.groupId), endInvite(invite.inviteId)]}>Accept</button
+						>
+						<button class="action-button delete" on:click={endInvite(invite.inviteId)}
+							>Delete</button
+						>
 					</div>
 				</div>
 			</div>
