@@ -17,10 +17,6 @@
 		history.back();
 	}
 
-	async function goHome() {
-		window.location.href = '/';
-	}
-
 	async function putGroup() {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/ShareGroup/UpdateGroupDetails', {
 			method: 'PUT',
@@ -37,8 +33,6 @@
 			position: 'bottom-center'
 		});
 
-		// const json = await res.json();
-		// result = JSON.stringify(json);
 		goBack();
 	}
 </script>

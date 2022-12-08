@@ -18,10 +18,6 @@
 		history.back();
 	}
 
-	async function goHome() {
-		window.location.href = '/loginForm';
-	}
-
 	fetch('https://api-wan-kenobi.ovh/api/ShareUser/GetAllUsers')
 		.then((response) => response.json())
 		.then((data) => {
@@ -33,22 +29,6 @@
 			username = user?.userName;
 			mail = user?.email;
 		});
-
-	async function signOut() {
-		const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Logout/' + $storedUser.id, {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' }
-		});
-
-		$storedUser.id = 0;
-		$storedUser.token = 'Empty';
-
-		toast.success('Logged out', {
-			position: 'bottom-center'
-		});
-
-		goHome();
-	}
 
 	async function editAcc() {
 		if (

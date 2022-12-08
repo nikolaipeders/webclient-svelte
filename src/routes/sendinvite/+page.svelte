@@ -36,8 +36,6 @@
 
 		const json = await res.json();
 		result = JSON.stringify(json);
-
-		//await goHome()
 	}
 
 	onMount(async () => {

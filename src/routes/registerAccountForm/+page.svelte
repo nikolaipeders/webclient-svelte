@@ -80,7 +80,6 @@
 		.then((data) => {
 			users = data;
 			users = users;
-			// user = users.find((u) => u.userId == $storedUser.id);
 		});
 </script>
 

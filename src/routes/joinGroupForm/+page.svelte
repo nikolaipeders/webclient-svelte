@@ -5,8 +5,6 @@
 	import { onMount } from 'svelte';
 	import toast, { Toaster } from 'svelte-french-toast';
 
-	var name = $page.url.searchParams.get('name');
-	var reference = '' + $page.url.searchParams.get('reference');
 	var result = null;
 	let searchTerm = '';
 	let groups = new Array();

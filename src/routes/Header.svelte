@@ -7,12 +7,6 @@
 
 	let invites = new Array();
 
-	async function handleArrayLengthChange() {
-		toast('New invite!', {
-			icon: '👋'
-		});
-	}
-
 	async function signOut() {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/Main/Logout/' + $storedUser.id, {
 			method: 'POST',
@@ -42,12 +36,6 @@
 <header>
 	<nav>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
-			</li>
-			<!-- <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
-			</li> -->
 			<li aria-current={$page.url.pathname === '/addGroupForm' ? 'page' : undefined}>
 				<div class="dropdown">
 					<a href="/" class="dropdown-button"> Groups </a>
@@ -102,7 +90,7 @@
 		padding: 0;
 		margin: 10px;
 		height: 3em;
-		width: 22em;
+		width: 18em;
 		display: flex;
 		justify-content: center;
 		align-items: center;

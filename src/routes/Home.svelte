@@ -5,24 +5,16 @@
 	import { storedUser } from '$lib/stores/user';
 	import toast, { Toaster } from 'svelte-french-toast';
 
-	let groups = new Array();
-	let expenses = new Array();
-	let userGroups = new Array();
-	let users = new Array();
-	let user = {};
-	let userFound = false;
-	let searchTerm = '';
-
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',
 		currency: 'DKK'
 	});
 
-	onMount(async () => {
-		if ($storedUser.token.includes('Empty')) {
-			window.location.href = '/loginForm';
-		}
-	});
+	let groups = new Array();
+	let expenses = new Array();
+	let userGroups = new Array();
+	let users = new Array();
+	let searchTerm = '';
 
 	async function removeMember(group, user) {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/UserGroup/RemoveMemberFromGroup', {
@@ -107,12 +99,17 @@
 		.then((data) => {
 			users = data;
 			users = users;
-			// user = users.find((u) => u.userId == $storedUser.id);
 		});
 
 	$: filteredGroups = groups.filter((group) =>
 		group.name ? group.name : ''.toLowerCase().includes(searchTerm.toLowerCase())
 	);
+
+	onMount(async () => {
+		if ($storedUser.token.includes('Empty')) {
+			window.location.href = '/loginForm';
+		}
+	});
 </script>
 
 <Toaster />
@@ -215,7 +212,6 @@
 <style>
 	.main-body {
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
-		/* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 	}
 
 	.row {

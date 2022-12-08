@@ -12,10 +12,6 @@
 		history.back();
 	}
 
-	async function goHome() {
-		window.location.href = '/';
-	}
-
 	async function postGroup() {
 		const res = await fetch('https://api-wan-kenobi.ovh/api/Expense/EditAnExpense', {
 			method: 'PUT',
