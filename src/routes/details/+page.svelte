@@ -6,7 +6,6 @@
 	import { storedUser } from '$lib/stores/user';
 	import PayModal from '../PayModal.svelte';
 	import toast, { Toaster } from 'svelte-french-toast';
-	import { id, username } from 'src/Userdata.svelte';
 
 	const formatter = new Intl.NumberFormat('da-DK', {
 		style: 'currency',

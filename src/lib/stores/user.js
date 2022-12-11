@@ -1,9 +1,8 @@
 // @ts-nocheck
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
-// it works with readable stores too!
 
-// create an object w/default values
+// create an object with default values
 let user = {
     id: 0,
     username: "Empty",
@@ -24,7 +23,6 @@ if (browser) {
     // update localStorage values whenever the store values change
     storedUser.subscribe((value) =>
         // localStorage only allows strings
-        // IndexedDB does allow for objects though... 🤔
         localStorage.setItem('user', JSON.stringify(value))
     );
 }
